@@ -1,0 +1,34 @@
+services:
+  qkd:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: qkd-simulator
+    volumes:
+      # Mount source for development (optional)
+      - ./src:/app/src:ro
+      - ./demo.py:/app/demo.py:ro
+    # Run demo by default
+    command: python demo.py
+
+  # Run tests
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: qkd-tests
+    command: pytest -v
+    profiles:
+      - test
+
+  # Interactive shell for experiments
+  shell:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: qkd-shell
+    stdin_open: true
+    tty: true
+    command: python
+    profiles:
+      - dev
