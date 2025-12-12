@@ -1,7 +1,7 @@
 # QKD - Quantum Key Distribution Simulator
 # Docker-based development and execution
 
-.PHONY: help build run test shell dev dev-test clean logs
+.PHONY: help build build-test run test shell dev dev-test clean logs
 
 # Default target
 help:
@@ -24,12 +24,16 @@ help:
 build:
 	docker compose build qkd
 
+# Build test image
+build-test:
+	docker compose build test
+
 # Run the demo
 run: build
 	docker compose run --rm qkd
 
 # Run tests
-test: build
+test: build-test
 	docker compose run --rm test
 
 # Interactive Python shell
